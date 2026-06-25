@@ -1,6 +1,6 @@
 <div align="center">
 
-# YouVerify Document Capture iOS SDK
+# Youverify Document Capture iOS SDK
 
 **Identity onboarding & document capture for iOS, distributed via Swift Package Manager.**
 
