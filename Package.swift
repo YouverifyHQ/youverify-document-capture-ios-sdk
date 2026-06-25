@@ -32,8 +32,8 @@ import PackageDescription
 
 // MARK: - Release coordinates (updated by Release Please on every release)
 
-let sdkVersion = "0.2.18" // x-release-please-version
-let binaryURL  = "https://cdn.youverify.co/ios-sdks/YouVerify_SDK-0.2.18.xcframework.zip" // x-release-please-version
+let sdkVersion = "0.2.19" // x-release-please-version
+let binaryURL  = "https://cdn.youverify.co/ios-sdks/YouVerify_SDK-0.2.19.xcframework.zip" // x-release-please-version
 // NOTE: `binaryChecksum` is NOT auto-bumped — update it during release prep with
 // `swift package compute-checksum <zip>` (the release workflow validates it on PRs).
 let binaryChecksum = "220a3c991065339b8a222a4f5f8965a199d974e501d8101a929b370c38739fbd"

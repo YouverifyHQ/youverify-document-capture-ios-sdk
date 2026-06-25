@@ -11,6 +11,19 @@ and entries are generated automatically by
 
 <!-- release-please-do-not-touch -->
 
+## [0.2.19](https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/compare/v0.2.18...v0.2.19) (2026-06-25)
+
+
+### Added
+
+* inital release ([531b051](https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/commit/531b0515b37453c865ed964cc75c1f0f8cab6622))
+
+
+### Fixed
+
+* cleaning documentation ([63fd0ab](https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/commit/63fd0ab591db54009b21ff3910264699875de452))
+* updated  readme ([f137a65](https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/commit/f137a654b0c1a7f90be9056e46033138f997dd04))
+
 ## [0.2.18] - 2024-01-01
 
 ### Added
