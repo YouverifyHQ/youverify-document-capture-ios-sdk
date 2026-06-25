@@ -23,6 +23,6 @@ and entries are generated automatically by
 ### Changed
 
 - **Migrated distribution from CocoaPods to Swift Package Manager.** The
-  `YouVerify_SDK` pod is superseded by this package. See [MIGRATION.md](MIGRATION.md).
+  `YouVerify_SDK` pod is superseded by this package.
 
 [0.2.18]: https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/releases/tag/v0.2.18

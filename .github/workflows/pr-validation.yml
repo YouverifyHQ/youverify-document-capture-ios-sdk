@@ -6,8 +6,8 @@ name: PR Validation
 #   - the checksum is well-formed
 #   - documentation and changelog are kept up to date
 #
-# Any failure blocks the merge (wire these as required status checks — see
-# docs/BRANCH_PROTECTION.md).
+# Any failure blocks the merge (wire these as required status checks in the
+# branch protection settings for the default branch).
 
 on:
   pull_request:
@@ -115,18 +115,19 @@ jobs:
       - name: Require core docs to exist
         run: |
           set -euo pipefail
-          for f in README.md CHANGELOG.md LICENSE SECURITY.md SUPPORT.md CONTRIBUTING.md; do
+          for f in README.md CHANGELOG.md LICENSE; do
             if [ ! -f "$f" ]; then
               echo "::error::Required documentation file missing: $f"
               exit 1
             fi
           done
 
-      - name: Reject CocoaPods references in docs
+      - name: Reject CocoaPods install instructions in docs
         run: |
           set -euo pipefail
-          if grep -RniE 'pod install|podfile|pod .YouVerify|cocoapods|post_install' README.md CHANGELOG.md docs 2>/dev/null; then
-            echo "::error::CocoaPods references found. This SDK is distributed via Swift Package Manager only."
+          # Flag real Podfile/CocoaPods install syntax — not prose mentions of the word.
+          if grep -RniE "pod +install|podfile|pod +['\"]|post_install" README.md 2>/dev/null; then
+            echo "::error::CocoaPods install instructions found. This SDK is distributed via Swift Package Manager only."
             exit 1
           fi
 

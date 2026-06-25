@@ -28,10 +28,6 @@ and issue tracking only — **no source code**.
 - **On-device** document detection (Google ML Kit, embedded)
 - **Swift Package Manager** distribution with checksum-verified binaries
 
-> **Migrating from CocoaPods?** This SDK is no longer distributed via CocoaPods.
-> See [Installation](#installation) for the Swift Package Manager workflow and
-> [MIGRATION.md](MIGRATION.md) for details.
-
 ## Requirements
 
 | Requirement            | Value                                  |

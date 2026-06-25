@@ -1,16 +1,5 @@
 # CODEOWNERS — required reviewers for this distribution repository.
-# These owners are auto-requested on every PR and (with branch protection)
-# must approve before merge. Update the team/handles to match your org.
+# Auto-requested on every PR and (with branch protection) required before merge.
+# Update the team/handle to match your org.
 
-# Default owners for everything in the repo.
-*                           @YouverifyHQ/mobile-sdk-maintainers
-
-# Release engineering & SPM manifest — narrower ownership.
-/Package.swift              @YouverifyHQ/mobile-sdk-maintainers
-/release-please-config.json @YouverifyHQ/mobile-sdk-maintainers
-/.release-please-manifest.json @YouverifyHQ/mobile-sdk-maintainers
-/.github/                   @YouverifyHQ/mobile-sdk-maintainers
-
-# Documentation can have a broader set of reviewers.
-/README.md                  @YouverifyHQ/mobile-sdk-maintainers
-/docs/                      @YouverifyHQ/mobile-sdk-maintainers
+* @YouverifyHQ/mobile-sdk-maintainers
