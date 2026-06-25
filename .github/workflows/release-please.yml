@@ -1,0 +1,58 @@
+name: Release Please
+
+# Google-style release automation. On every push to master, Release Please
+# maintains a "release PR" that accumulates Conventional Commit changes,
+# updates the version + CHANGELOG, and — once merged — creates the git tag and
+# GitHub Release. No manual tags, no local releases.
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  verify-release-binary:
+    name: Verify binary on tagged release
+    needs: release-please
+    runs-on: macos-14
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Re-verify published binary URL & checksum
+        run: |
+          set -euo pipefail
+          URL=$(grep -Eo 'https://[^"]+\.xcframework\.zip' Package.swift | head -n1)
+          DECLARED=$(grep -A2 'binaryChecksum' Package.swift | grep -Eo '[a-f0-9]{64}' | head -n1)
+          curl -sS -L --retry 3 -o artifact.xcframework.zip "$URL"
+          ACTUAL=$(swift package compute-checksum artifact.xcframework.zip)
+          [ "$DECLARED" = "$ACTUAL" ] || { echo "::error::Released checksum mismatch"; exit 1; }
+          echo "✅ Released binary verified for $URL"

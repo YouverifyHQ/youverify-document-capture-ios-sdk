@@ -1,0 +1,73 @@
+name: 🐞 Bug report
+description: Report a problem with the YouVerify Document Capture iOS SDK
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please do **not** include API keys, merchant
+        secrets, or personal identity data in this report.
+  - type: input
+    id: sdk-version
+    attributes:
+      label: SDK version
+      placeholder: "e.g. 0.2.18"
+    validations:
+      required: true
+  - type: dropdown
+    id: integration
+    attributes:
+      label: Integration
+      options: [UIKit, SwiftUI, Both]
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where does it occur?
+      options:
+        - Physical device
+        - Simulator (Apple Silicon)
+        - Simulator (Intel)
+    validations:
+      required: true
+  - type: input
+    id: xcode-ios
+    attributes:
+      label: Xcode / iOS versions
+      placeholder: "e.g. Xcode 15.4, iOS 17.5"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / build output
+      description: Relevant linker errors, crash logs, or console output.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight
+      options:
+        - label: I am on the latest SDK release (or stated otherwise above)
+          required: true
+        - label: I checked the README Troubleshooting section
+          required: true
+        - label: This report contains no secrets or personal data
+          required: true

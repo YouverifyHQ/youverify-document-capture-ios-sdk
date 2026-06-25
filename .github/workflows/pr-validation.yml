@@ -1,0 +1,150 @@
+name: PR Validation
+
+# Validates every pull request that targets the default branch:
+#   - Package.swift is valid and resolves
+#   - the binary XCFramework URL is reachable and its checksum matches
+#   - the checksum is well-formed
+#   - documentation and changelog are kept up to date
+#
+# Any failure blocks the merge (wire these as required status checks — see
+# docs/BRANCH_PROTECTION.md).
+
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package-validation:
+    name: Validate Swift Package
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Validate manifest (dump-package)
+        run: swift package dump-package > /dev/null
+
+      - name: Resolve dependencies
+        run: swift package resolve
+
+      - name: Show resolved dependency graph
+        run: swift package show-dependencies || true
+
+  binary-validation:
+    name: Validate XCFramework binary
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract binary URL and checksum from Package.swift
+        id: coords
+        run: |
+          set -euo pipefail
+          URL=$(grep -Eo 'https://[^"]+\.xcframework\.zip' Package.swift | head -n1)
+          CHECKSUM=$(grep -A2 'binaryChecksum' Package.swift | grep -Eo '[a-f0-9]{64}' | head -n1)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "checksum=$CHECKSUM" >> "$GITHUB_OUTPUT"
+          echo "Binary URL: $URL"
+          echo "Declared checksum: $CHECKSUM"
+
+      - name: Validate checksum format (64 hex chars)
+        run: |
+          set -euo pipefail
+          CHECKSUM="${{ steps.coords.outputs.checksum }}"
+          if ! [[ "$CHECKSUM" =~ ^[a-f0-9]{64}$ ]]; then
+            echo "::error::Checksum is not a valid 64-character lowercase hex SHA-256: '$CHECKSUM'"
+            exit 1
+          fi
+
+      - name: Validate URL is reachable
+        run: |
+          set -euo pipefail
+          URL="${{ steps.coords.outputs.url }}"
+          if [ -z "$URL" ]; then
+            echo "::error::Could not extract binary URL from Package.swift"
+            exit 1
+          fi
+          STATUS=$(curl -sS -o /dev/null -w '%{http_code}' -L --retry 3 --retry-delay 5 -I "$URL")
+          echo "HTTP status: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "::error::Binary URL is not reachable (HTTP $STATUS): $URL"
+            exit 1
+          fi
+
+      - name: Download and verify checksum matches
+        run: |
+          set -euo pipefail
+          URL="${{ steps.coords.outputs.url }}"
+          DECLARED="${{ steps.coords.outputs.checksum }}"
+          curl -sS -L --retry 3 --retry-delay 5 -o artifact.xcframework.zip "$URL"
+          ACTUAL=$(swift package compute-checksum artifact.xcframework.zip)
+          echo "Declared: $DECLARED"
+          echo "Actual:   $ACTUAL"
+          if [ "$DECLARED" != "$ACTUAL" ]; then
+            echo "::error::Checksum mismatch. Update binaryChecksum in Package.swift to: $ACTUAL"
+            exit 1
+          fi
+          echo "✅ Checksum verified."
+
+  docs-and-changelog:
+    name: Validate docs & changelog
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require core docs to exist
+        run: |
+          set -euo pipefail
+          for f in README.md CHANGELOG.md LICENSE SECURITY.md SUPPORT.md CONTRIBUTING.md; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Required documentation file missing: $f"
+              exit 1
+            fi
+          done
+
+      - name: Reject CocoaPods references in docs
+        run: |
+          set -euo pipefail
+          if grep -RniE 'pod install|podfile|pod .YouVerify|cocoapods|post_install' README.md CHANGELOG.md docs 2>/dev/null; then
+            echo "::error::CocoaPods references found. This SDK is distributed via Swift Package Manager only."
+            exit 1
+          fi
+
+      - name: Require CHANGELOG to be touched when Package.swift changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          CHANGED=$(git diff --name-only "$BASE_SHA"...HEAD)
+          echo "Changed files:"; echo "$CHANGED"
+          if echo "$CHANGED" | grep -q '^Package.swift$'; then
+            # Release Please owns CHANGELOG on release PRs; skip the gate there.
+            if echo "${{ github.head_ref }}" | grep -q '^release-please'; then
+              echo "Release Please branch — CHANGELOG handled by automation."
+              exit 0
+            fi
+            if ! echo "$CHANGED" | grep -q '^CHANGELOG.md$'; then
+              echo "::warning::Package.swift changed but CHANGELOG.md was not updated. " \
+                   "Note: routine changes flow through Conventional Commits + Release Please."
+            fi
+          fi

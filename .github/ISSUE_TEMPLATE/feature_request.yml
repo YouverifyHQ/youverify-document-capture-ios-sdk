@@ -1,0 +1,33 @@
+name: 💡 Feature request
+description: Suggest an improvement to the SDK or its distribution
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do, and what's getting in the way?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - SDK capability (document/country support, capture flow)
+        - API surface (UIKit / SwiftUI)
+        - Distribution / Package.swift
+        - Documentation
+        - Other
+    validations:
+      required: true
