@@ -4,11 +4,6 @@
 
 **Identity onboarding & document capture for iOS, distributed via Swift Package Manager.**
 
-[![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
-[![Platform](https://img.shields.io/badge/platform-iOS%2015.5%2B-blue.svg)](#requirements)
-[![Release](https://img.shields.io/github/v/release/YouverifyHQ/youverify-document-capture-ios-sdk?sort=semver)](https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/releases)
-[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
-
 </div>
 
 ---
