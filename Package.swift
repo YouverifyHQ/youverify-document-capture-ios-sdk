@@ -42,14 +42,14 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.2"),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
-        .package(url: "https://github.com/SurfStudioInc/SKCountryPicker.git", from: "2.0.0"),
+        .package(url: "https://github.com/SURYAKANTSHARMA/CountryPicker.git", from: "2.0.0"),
         .package(url: "https://github.com/ZipArchive/ZipArchive.git", from: "2.4.3"),
         .package(url: "https://github.com/google/GoogleUtilities.git", from: "7.12.0"),
         .package(url: "https://github.com/google/GoogleDataTransport.git", from: "9.4.0"),
         .package(url: "https://github.com/google/gtm-session-fetcher.git", from: "3.1.1"),
         .package(url: "https://github.com/google/promises.git", from: "2.4.0"),
         .package(url: "https://github.com/firebase/nanopb.git", "2.30909.0" ..< "2.30911.0"),
-        .package(url: "https://github.com/google/GoogleToolboxForMac.git", from: "4.2.1")
+        .package(url: "https://github.com/google/google-toolbox-for-mac.git", from: "6.0.0")
     ],
     targets: [
         .binaryTarget(
@@ -62,7 +62,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Alamofire", package: "Alamofire"),
                 .product(name: "SwiftyJSON", package: "SwiftyJSON"),
-                .product(name: "SKCountryPicker", package: "SKCountryPicker"),
+                .product(name: "CountryPicker", package: "CountryPicker"),
                 .product(name: "ZipArchive", package: "ZipArchive"),
                 .product(name: "GoogleUtilities-Environment", package: "GoogleUtilities"),
                 .product(name: "GoogleUtilities-Logger", package: "GoogleUtilities"),
@@ -74,7 +74,7 @@ let package = Package(
                 .product(name: "GTMSessionFetcherCore", package: "gtm-session-fetcher"),
                 .product(name: "FBLPromises", package: "promises"),
                 .product(name: "nanopb", package: "nanopb"),
-                .product(name: "GoogleToolboxForMac", package: "GoogleToolboxForMac")
+                .product(name: "GoogleToolboxForMac", package: "google-toolbox-for-mac")
             ],
             path: "Sources/YouVerifySDKDependencies"
         )
