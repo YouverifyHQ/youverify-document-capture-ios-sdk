@@ -44,7 +44,7 @@ let package = Package(
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
         .package(url: "https://github.com/SURYAKANTSHARMA/CountryPicker.git", from: "2.0.0"),
         .package(url: "https://github.com/ZipArchive/ZipArchive.git", from: "2.4.3"),
-        .package(url: "https://github.com/google/GoogleUtilities.git", from: "7.12.0"),
+        .package(url: "https://github.com/google/GoogleUtilities.git", exact: "7.12.0"),
         .package(url: "https://github.com/google/GoogleDataTransport.git", from: "9.4.0"),
         .package(url: "https://github.com/google/gtm-session-fetcher.git", from: "3.1.1"),
         .package(url: "https://github.com/google/promises.git", from: "2.4.0"),
