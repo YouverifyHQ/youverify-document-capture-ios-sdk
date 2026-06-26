@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: 📚 Documentation
+  - name: Documentation
     url: https://doc.youverify.co/
     about: Integration guides and product documentation.
-  - name: 🔐 Report a security vulnerability
-    url: https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/security/advisories/new
-    about: Please report vulnerabilities privately — not as public issues.
-  - name: 💬 Commercial / account support
+  - name: Report a security vulnerability
+    url: https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/security/policy
+    about: Please report vulnerabilities privately, not as public issues.
+  - name: Commercial and account support
     url: mailto:developer@youverify.co
     about: Merchant onboarding, API keys, billing, and production incidents.

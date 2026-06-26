@@ -1,0 +1,9 @@
+# Normalize line endings and mark generated or binary paths.
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.xcframework binary
+*.zip binary
+
+CHANGELOG.md linguist-generated=true
+Examples/** linguist-documentation

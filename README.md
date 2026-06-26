@@ -38,7 +38,6 @@ and issue tracking only — **no source code**.
 | Distribution           | Swift Package Manager (binary XCFramework) |
 | Device architecture    | `arm64` (physical devices)             |
 
-
 ## Installation
 
 ### Xcode — Add Package
@@ -170,6 +169,18 @@ struct ContentView: View {
 
 A runnable sample lives in [`Examples/DocumentCaptureSample`](Examples/DocumentCaptureSample).
 
+## Development and releases
+
+This repository follows the Youverify iOS SDK distribution standard:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) explains local validation and PR expectations.
+- [RELEASE.md](RELEASE.md) documents the version-bump-driven release process.
+- [Docs/ARCHITECTURE.md](Docs/ARCHITECTURE.md) describes the package structure.
+- [Docs/REPOSITORY_STANDARDS.md](Docs/REPOSITORY_STANDARDS.md) lists required files and checks.
+
+The SDK version is single-sourced in `Package.swift`. Documentation-only changes
+do not create releases.
+
 ## Supported Countries & Documents
 
 <details>
@@ -274,7 +285,7 @@ A runnable sample lives in [`Examples/DocumentCaptureSample`](Examples/DocumentC
 ## Release Notes
 
 See [CHANGELOG.md](CHANGELOG.md). Releases are automated with
-[Release Please](https://github.com/googleapis/release-please) and published to
+[the Release workflow](.github/workflows/release.yml) and published to
 [GitHub Releases](https://github.com/YouverifyHQ/youverify-document-capture-ios-sdk/releases).
 
 ## Support

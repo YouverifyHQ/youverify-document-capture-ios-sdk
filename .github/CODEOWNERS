@@ -1,5 +1,8 @@
-# CODEOWNERS — required reviewers for this distribution repository.
-# Auto-requested on every PR and (with branch protection) required before merge.
-# Update the team/handle to match your org.
+# CODEOWNERS - required reviewers for Youverify iOS SDK distribution repos.
 
-* @YouverifyHQ/mobile-sdk-maintainers
+* @sethyv @efamous
+
+/Package.swift @sethyv @efamous
+/.github/ @sethyv @efamous
+/scripts/ @sethyv @efamous
+/RELEASE.md @sethyv @efamous

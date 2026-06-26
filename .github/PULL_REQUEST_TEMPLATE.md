@@ -1,29 +1,29 @@
-<!--
-Thanks for contributing! This is a distribution repo (no SDK source code).
-PR titles SHOULD follow Conventional Commits, e.g. "docs: ...", "deps: ...".
--->
-
 ## Summary
 
 <!-- What does this PR change and why? -->
 
 ## Type of change
 
-- [ ] 📝 Documentation
-- [ ] 📦 Package.swift / dependency wiring
-- [ ] ⬆️ New SDK binary (URL + checksum bump)
-- [ ] 🤖 CI/CD or governance
-- [ ] 🐞 Bug report triage / issue follow-up
+- [ ] Documentation
+- [ ] Package.swift or dependency wiring
+- [ ] New SDK binary version
+- [ ] CI/CD or governance
+- [ ] Example or integration guidance
 
 ## Checklist
 
-- [ ] PR title follows [Conventional Commits](https://www.conventionalcommits.org/)
-- [ ] `swift package dump-package` and `swift package resolve` pass locally
-- [ ] No CocoaPods references introduced (this SDK is SPM-only)
-- [ ] Docs/README updated if behaviour or integration changed
-- [ ] If bumping the binary: updated **both** `binaryURL` and `binaryChecksum`
-      in `Package.swift` (`swift package compute-checksum <zip>`)
+- [ ] PR title follows Conventional Commits.
+- [ ] `swift package dump-package` passes locally.
+- [ ] `swift package resolve` passes locally, or the reason it cannot pass is explained.
+- [ ] `bash scripts/validate-binary-target.sh` passes locally, or the reason it cannot pass is explained.
+- [ ] README, RELEASE.md, or Docs were updated if integration or release behavior changed.
+- [ ] If bumping the binary: `let version` and `let checksum` were updated together in `Package.swift`.
+- [ ] No secrets, API keys, identity documents, or personal data were added.
+
+## Release notes
+
+<!-- User-facing notes for the generated GitHub Release, if this PR ships a new SDK version. -->
 
 ## Related issues
 
-<!-- e.g. Closes #123 -->
+<!-- Closes #123 -->

@@ -2,17 +2,21 @@
 .build/
 .swiftpm/
 Package.resolved
+
+# Xcode
+xcuserdata/
+DerivedData/
+build/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
 *.xcodeproj/project.xcworkspace/xcuserdata/
 *.xcodeproj/xcuserdata/
 
 # macOS
 .DS_Store
 
-# Xcode
-xcuserdata/
-DerivedData/
-*.xcuserstate
-
-# Downloaded binary artifacts (never commit the XCFramework here)
+# Downloaded/local binary artifacts
 *.xcframework
 *.xcframework.zip
+artifact.zip
