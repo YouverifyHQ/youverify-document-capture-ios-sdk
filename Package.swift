@@ -17,8 +17,12 @@
 //
 //  Maintainer notes - verify on every release:
 //  1. Confirm simulator slices with the source-build team before publishing.
-//  2. The Google support stack below must ABI-match the MLKit version embedded
-//     in the binary. Runtime linkage must be smoke-tested in Examples.
+//  2. The Google support stack below, including google-mlkit-swiftpm, must
+//     ABI-match the MLKit version embedded in the binary. Runtime linkage
+//     must be smoke-tested in Examples. Google MLKit has no official SPM
+//     package, so this repo depends on the community-managed
+//     d-date/google-mlkit-swiftpm mirror; confirm its pinned tag matches the
+//     MLKit build the binary was compiled against before every release.
 //  3. Long-term: ship a self-contained XCFramework so this dependency-carrier
 //     target can be removed.
 
@@ -43,13 +47,19 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.2"),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.1"),
         .package(url: "https://github.com/SURYAKANTSHARMA/CountryPicker.git", from: "2.0.0"),
-        .package(url: "https://github.com/ZipArchive/ZipArchive.git", from: "2.4.3"),
-        .package(url: "https://github.com/google/GoogleUtilities.git", exact: "7.12.0"),
-        .package(url: "https://github.com/google/GoogleDataTransport.git", from: "9.4.0"),
+        .package(url: "https://github.com/ZipArchive/ZipArchive.git", exact: "2.4.3"),
+        .package(url: "https://github.com/google/GoogleUtilities.git", exact: "8.1.0"),
+        .package(url: "https://github.com/google/GoogleDataTransport.git", exact: "10.1.0"),
         .package(url: "https://github.com/google/gtm-session-fetcher.git", from: "3.1.1"),
         .package(url: "https://github.com/google/promises.git", from: "2.4.0"),
         .package(url: "https://github.com/firebase/nanopb.git", "2.30909.0" ..< "2.30911.0"),
-        .package(url: "https://github.com/google/google-toolbox-for-mac.git", from: "6.0.0")
+        // No official SPM package exists for Google MLKit; this is the
+        // community-managed mirror. Pinned `exact` because MLKit ships as
+        // prebuilt binaryTargets with no source compatibility guarantees
+        // across versions. The wrapper owns its GoogleToolboxForMac binary;
+        // do not also add Google's source package because it exposes different
+        // products and would duplicate the module in the consumer link graph.
+        .package(url: "https://github.com/d-date/google-mlkit-swiftpm.git", exact: "9.0.0-1")
     ],
     targets: [
         .binaryTarget(
@@ -74,7 +84,8 @@ let package = Package(
                 .product(name: "GTMSessionFetcherCore", package: "gtm-session-fetcher"),
                 .product(name: "FBLPromises", package: "promises"),
                 .product(name: "nanopb", package: "nanopb"),
-                .product(name: "GoogleToolboxForMac", package: "google-toolbox-for-mac")
+                .product(name: "MLKitTextRecognition", package: "google-mlkit-swiftpm"),
+                .product(name: "MLKitBarcodeScanning", package: "google-mlkit-swiftpm")
             ],
             path: "Sources/YouVerifySDKDependencies"
         )
